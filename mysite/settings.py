@@ -26,7 +26,7 @@ SECRET_KEY = 'ro3_3gby2xk=sn=%7o*cwfj9)3odkr_)8dwjaj$9q5-hw#vc2s'
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
-
+DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
