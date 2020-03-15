@@ -3,6 +3,9 @@ from django.http import HttpResponse
 import datetime
 from django.shortcuts import render
 
+def post_list(request):
+    return render(request, 'blog/post_list.html', {})
+
 
 def strona_glowna(request):
     imie = "Piotr"
