@@ -28,21 +28,36 @@ def post_new(request):
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
-def strona_glowna(request):
-    imie = "Piotr"
-    nazwisko = "Pawlak"
-    html = "<html><body>It is now %s.</body></html" % imie+nazwisko
-    return HttpResponse(html)
 
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = "<html><body>It is now %s.</body></html>" % now
-    return HttpResponse(html)
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
 
-def strona_imion(request):
-    imie = "Piotr"
-    return render(request, 'blog/imie.html', {'toimie':imie})
-
-def data(request):
-    now = datetime.datetime.now()
-    return render(request, 'blog/data.html', {'data':now})
+# def strona_glowna(request):
+#     imie = "Piotr"
+#     nazwisko = "Pawlak"
+#     html = "<html><body>It is now %s.</body></html" % imie+nazwisko
+#     return HttpResponse(html)
+#
+# def current_datetime(request):
+#     now = datetime.datetime.now()
+#     html = "<html><body>It is now %s.</body></html>" % now
+#     return HttpResponse(html)
+#
+# def strona_imion(request):
+#     imie = "Piotr"
+#     return render(request, 'blog/imie.html', {'toimie':imie})
+#
+# def data(request):
+#     now = datetime.datetime.now()
+#     return render(request, 'blog/data.html', {'data':now})
